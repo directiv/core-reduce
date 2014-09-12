@@ -1,0 +1,27 @@
+{
+  "name": "directiv-core-reduce",
+  "version": "0.1.0",
+  "description": "compile a reducing function for an object/array",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/directiv/core-reduce.git"
+  },
+  "keywords": [
+    "reduce"
+  ],
+  "author": "Cameron Bytheway <bytheway.cameron@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/directiv/core-reduce/issues"
+  },
+  "homepage": "https://github.com/directiv/core-reduce",
+  "devDependencies": {
+    "mocha": "^1.21.4",
+    "performance-now": "^0.1.4",
+    "should": "^4.0.4"
+  }
+}
