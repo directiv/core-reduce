@@ -1,5 +1,5 @@
 /**
- * Compile a object reducer
+ * Compile an object reducer
  *
  * @param {Object} obj
  * @param {Boolean?} toString
@@ -12,7 +12,6 @@ module.exports = function(obj, toString) {
 
 // http://jsperf.com/object-iteration-with-pre-compiled-iterator
 function compile(obj, props, toString) {
-  // pre-compile constant iteration over object properties
   var str = '(function(f,s) {\n';
 
   if (Array.isArray(obj)) {
