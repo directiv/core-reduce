@@ -42,7 +42,7 @@ describe('core-reduce', function() {
         obj[i] = i;
       }
 
-      describe('compiled', function() {
+      describe('optimized', function() {
         var reduce = compile(obj);
 
         benchmark(iterations, length, function() {
@@ -53,7 +53,7 @@ describe('core-reduce', function() {
         });
       });
 
-      describe('for', function() {
+      describe('for in', function() {
         benchmark(iterations, length, function() {
           function pass(acc1, value, key) {
             acc1[key] = value;
@@ -75,7 +75,7 @@ describe('core-reduce', function() {
         arr.push(i);
       }
 
-      describe('compiled', function() {
+      describe('optimized', function() {
         var reduce = compile(arr);
 
         benchmark(iterations, length, function() {

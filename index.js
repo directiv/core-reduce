@@ -2,31 +2,33 @@
  * Compile an object reducer
  *
  * @param {Object} obj
- * @param {Boolean?} toString
- * @param {Function|String}
+ * @param {Array?} keys
+ * @param {Function}
  */
 
-module.exports = function(obj, toString) {
-  return compile(obj, Object.keys(obj), toString);
+module.exports = function(obj, keys) {
+  return Array.isArray(obj) ?
+    initArray(obj) :
+    initObj(obj, keys || Object.keys(obj));
 };
 
-// http://jsperf.com/object-iteration-with-pre-compiled-iterator
-function compile(obj, props, toString) {
-  var str = '(function(f,s) {\n';
-
-  if (Array.isArray(obj)) {
-    str += 'var arr=' + JSON.stringify(obj) + '\n';
-    str += 'for(var i=0;i<' + obj.length + ';i++) {\ns=f(s,arr[i],i);\n}\n';
-  } else {
-    for (var i = 0; i < props.length; ++i) {
-      str += 's=f(s,' + JSON.stringify(obj[props[i]]) + ',"' + props[i] + '");\n';
+function initArray(obj) {
+  var arr = obj;
+  return function(fn, acc) {
+    for (var i = 0, l = arr.length; i < l; i++) {
+      acc = fn(acc, arr[i], i);
     }
-  }
+    return acc;
+  };
+}
 
-  str += 'return s;\n})';
-
-  if (toString) return str;
-
-  // WE KNOW WHAT WE'RE DOING HERE ;)
-  return eval(str);
-};
+function initObj(obj, keys) {
+  var o = obj, p = keys;
+  return function(fn, acc) {
+    for (var i = 0, l = p.length, key; i < l; i++) {
+      key = p[i];
+      acc = fn(acc, o[key], key);
+    }
+    return acc;
+  };
+}
