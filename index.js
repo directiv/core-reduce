@@ -3,32 +3,36 @@
  *
  * @param {Object} obj
  * @param {Array?} keys
+ * @param {Boolean?} ignoreKey
  * @param {Function}
  */
 
-module.exports = function(obj, keys) {
+module.exports = function(obj, keys, ignoreKey) {
   return Array.isArray(obj) ?
     initArray(obj) :
-    initObj(obj, keys || Object.keys(obj));
+    initObj(obj, keys || Object.keys(obj), ignoreKey);
 };
 
-function initArray(obj) {
-  var arr = obj;
-  return function(fn, acc) {
-    for (var i = 0, l = arr.length; i < l; i++) {
-      acc = fn(acc, arr[i], i);
+function initArray(arr) {
+  return (function(fn, acc) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      acc = fn(acc, this[i], i);
     }
     return acc;
-  };
+  }).bind(arr);
 }
 
-function initObj(obj, keys) {
-  var o = obj, p = keys;
-  return function(fn, acc) {
-    for (var i = 0, l = p.length, key; i < l; i++) {
-      key = p[i];
-      acc = fn(acc, o[key], key);
+function initObj(obj, keys, ignoreKey) {
+  var arr = keys.map(function(key) {
+    return obj[key];
+  });
+
+  if (ignoreKey) return initArray(arr);
+
+  return (function(ks, fn, acc) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      acc = fn(acc, this[i], keys[i]);
     }
     return acc;
-  };
+  }).bind(arr, keys);
 }

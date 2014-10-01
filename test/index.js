@@ -53,6 +53,17 @@ describe('core-reduce', function() {
         });
       });
 
+      describe('optimized w/o keys', function() {
+        var reduce = compile(obj, null, true);
+
+        benchmark(iterations, length, function() {
+          reduce(function(acc, value, key) {
+            acc[key] = value;
+            return acc;
+          }, {});
+        });
+      });
+
       describe('for in', function() {
         benchmark(iterations, length, function() {
           function pass(acc1, value, key) {
