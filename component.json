@@ -1,0 +1,10 @@
+{
+  "name": "directiv-core-reduce",
+  "version": "1.0.0",
+  "description": "compile a reducing function for an object/array",
+  "repo": "directiv/core-reduce",
+  "main": "index.js",
+  "author": "Cameron Bytheway <bytheway.cameron@gmail.com>",
+  "scripts": ["index.js"],
+  "license": "MIT"
+}
